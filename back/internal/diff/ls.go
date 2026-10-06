@@ -19,6 +19,7 @@ func listFilesWithModTime(root string) ([]FileInfo, error) {
 		".pdf":  true,
 		".cbz":  true,
 		".cbr":  true,
+		".zip":  true,
 	}
 
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {

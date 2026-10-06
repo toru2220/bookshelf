@@ -3,15 +3,13 @@ FROM golang:1.24.3
 ARG TARGETARCH
 ENV TARGETARCH=${TARGETARCH}
 
-WORKDIR /back
-COPY . .
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     poppler-utils \
     ghostscript \
     curl \
     xz-utils \
+    nginx \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux; \
@@ -30,7 +28,15 @@ RUN set -eux; \
     ln -sf /usr/local/bin/7zz /usr/local/bin/7z; \
     rm -rf /tmp/7z.tar.xz /tmp/7zextract
 
+WORKDIR /back
+COPY back/ .
 RUN go mod tidy \
     && go build -o main .
 
-CMD ["./main"]
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY front/dist /front
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+EXPOSE 80
+CMD ["/docker-entrypoint.sh"]

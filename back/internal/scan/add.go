@@ -60,7 +60,7 @@ func detectBookType(path string) string {
 		return "EPUB"
 	case ".pdf":
 		return "PDF"
-	case ".cbz":
+	case ".cbz", ".zip":
 		return "CBZ"
 	case ".cbr":
 		return "CBR"

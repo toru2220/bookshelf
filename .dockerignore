@@ -1,0 +1,9 @@
+.git
+.github
+android
+books
+db
+cache
+node_modules
+.devcontainer
+**/.DS_Store
